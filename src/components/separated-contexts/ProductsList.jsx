@@ -2,10 +2,11 @@ import { useContext, useEffect } from "react"
 import Product from "./Product"
 import { fakeFetchProducts } from "../../common/fakeFetchProducts"
 import "./ProductsList.css"
-import { OneContext } from "./OneContext"
+import { ProductsContext } from "./ProductsContext"
+
 
 const ProductsList = () => {
-    const { products, setProducts } = useContext(OneContext)
+    const { products, setProducts } = useContext(ProductsContext)
     
     const fetchProducts = async () => {
         const fetchedProducts = await fakeFetchProducts()

@@ -1,9 +1,9 @@
 import { useContext } from "react"
-import { OneContext } from "./OneContext"
+import { ContextInApp } from "./ContextInApp"
 import "./Cart.css"
 
 const Cart = () => {
-    const { cart } = useContext(OneContext)
+    const { cart } = useContext(ContextInApp)
 
     const sortedCart = cart.reduce((acc, c) => {
         if (acc[c]) {
@@ -13,7 +13,7 @@ const Cart = () => {
     }, {})
 
     const productsView = cart.length > 0 && Object.keys(sortedCart).map((key) => (
-        <p key={key}>{`${key}: ${sortedCart[key]}`}</p>
+        <p  key={key}>{`${key}: ${sortedCart[key]}`}</p>
     )) || <p>No products in the cart!</p>
 
     return (

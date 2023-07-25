@@ -1,0 +1,8 @@
+.cart-container {
+    min-width: 20vw;
+    border-left: 1px solid red;
+    border-bottom: 1px solid red;
+    background-color: darkslategrey;
+    text-align: center;
+    color: white;
+}

@@ -1,9 +1,9 @@
 import { useContext } from "react"
-import { OneContext } from "./OneContext"
 import "./Cart.css"
+import { CartContext } from "./ReducerContext"
 
 const Cart = () => {
-    const { cart } = useContext(OneContext)
+    const cart = useContext(CartContext)
 
     const sortedCart = cart.reduce((acc, c) => {
         if (acc[c]) {
