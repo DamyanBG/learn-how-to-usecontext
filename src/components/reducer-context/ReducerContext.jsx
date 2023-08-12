@@ -6,20 +6,16 @@ export const ProductsDispatchContext = createContext(null);
 export const CartContext = createContext(null);
 export const CartDispatchContext = createContext(null);
 
+const cartInitialState = () => {
+    const localState =  window.localStorage.getItem("cart");
+    return localState
+        ? JSON.parse(localState)
+        : []
+}
+
 export const ReducerContextProvider = ({ children }) => {
     const [products, dispatchProducts] = useReducer(productsReducer, []);
-    const [cart, dispatchCart] = useReducer(cartReducer, []);
-
-    useEffect(() => {
-        const loadedCartState = window.localStorage.getItem("cart");
-
-        if (!loadedCartState) return;
-
-        dispatchCart({
-            type: "loadCart",
-            loadedCart: JSON.parse(loadedCartState),
-        });
-    }, []);
+    const [cart, dispatchCart] = useReducer(cartReducer, cartInitialState());
 
     return (
         <ProductsContext.Provider value={products}>
