@@ -11,14 +11,14 @@ export const ReducerContextProvider = ({ children }) => {
     const [cart, dispatchCart] = useReducer(cartReducer, []);
 
     useEffect(() => {
-        const loadedCartState = window.localStorage.getItem("cart")
-        
-        if (!loadedCartState) return
+        const loadedCartState = window.localStorage.getItem("cart");
+
+        if (!loadedCartState) return;
 
         dispatchCart({
             type: "loadCart",
-            loadedCart: JSON.parse(loadedCartState)
-        })
+            loadedCart: JSON.parse(loadedCartState),
+        });
     }, []);
 
     return (
