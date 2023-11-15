@@ -1,4 +1,4 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 
 export const ProductsContext = createContext(null);
 export const ProductsDispatchContext = createContext(null);
@@ -6,9 +6,19 @@ export const ProductsDispatchContext = createContext(null);
 export const CartContext = createContext(null);
 export const CartDispatchContext = createContext(null);
 
+const cartInitialState = () => {
+    const cartCookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("cart="))
+        ?.split("=")[1];
+    return cartCookieValue
+        ? cartCookieValue.split(",")
+        : []
+}
+
 export const ReducerContextProvider = ({ children }) => {
     const [products, dispatchProducts] = useReducer(productsReducer, []);
-    const [cart, dispatchCart] = useReducer(cartReducer, []);
+    const [cart, dispatchCart] = useReducer(cartReducer, cartInitialState());
 
     return (
         <ProductsContext.Provider value={products}>
@@ -26,7 +36,12 @@ export const ReducerContextProvider = ({ children }) => {
 const cartReducer = (cart, action) => {
     switch (action.type) {
         case "addProduct": {
-            return [...cart, action.newProduct];
+            const newCartState = [...cart, action.newProduct];
+            document.cookie = `cart=${newCartState}; path=/; max-age=${60 * 60 * 24 * 14}`
+            return newCartState;
+        }
+        case "loadCart": {
+            return action.loadedCart;
         }
         default: {
             throw Error("Unknown action: " + action.type);
