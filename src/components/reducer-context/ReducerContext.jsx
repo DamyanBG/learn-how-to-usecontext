@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 
 export const ProductsContext = createContext(null);
 export const ProductsDispatchContext = createContext(null);
@@ -7,9 +7,12 @@ export const CartContext = createContext(null);
 export const CartDispatchContext = createContext(null);
 
 const cartInitialState = () => {
-    const localState =  window.localStorage.getItem("cart");
-    return localState
-        ? JSON.parse(localState)
+    const cartCookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("cart="))
+        ?.split("=")[1];
+    return cartCookieValue
+        ? cartCookieValue.split(",")
         : []
 }
 
@@ -34,7 +37,7 @@ const cartReducer = (cart, action) => {
     switch (action.type) {
         case "addProduct": {
             const newCartState = [...cart, action.newProduct];
-            window.localStorage.setItem("cart", JSON.stringify(newCartState));
+            document.cookie = `cart=${newCartState}; path=/; max-age=${60 * 60 * 24 * 14}`
             return newCartState;
         }
         case "loadCart": {

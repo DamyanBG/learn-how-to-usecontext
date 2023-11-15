@@ -4,6 +4,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     margin: 20px;
+    width: 60%;
 }
 
 .products-container section {
